@@ -32,6 +32,9 @@ class _ProviderLabView extends StatefulWidget {
 }
 
 class _ProviderLabViewState extends State<_ProviderLabView> {
+  // [LỖI 1]: Tăng _session để KeyedSubtree tạo lại toàn bộ card (kể cả card const) khi reset
+  int _session = 0;
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +44,8 @@ class _ProviderLabViewState extends State<_ProviderLabView> {
 
   void _resetBuildCounters() {
     RebuildTracker.resetAll();
-    // [setState]: Kích hoạt rebuild màn hình Lab để cập nhật lại số đếm hiển thị về Build 1
-    setState(() {});
+    // [setState]: Đổi Key buộc Flutter tạo lại cây con → mọi chip về Build 1; giá trị của Khối A cũng về 0
+    setState(() => _session++);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Đã đặt lại toàn bộ bộ đếm build về ban đầu (Build 1)!'),
@@ -68,45 +71,54 @@ class _ProviderLabViewState extends State<_ProviderLabView> {
           ),
         ],
       ),
-      body: ListView(
+      // [LỖI 2]: Dùng SingleChildScrollView thay cho ListView vì ListView có cơ chế
+      // hủy và tạo lại (virtualization) các widget con khi cuộn ra khỏi màn hình,
+      // khiến số lần build bị tăng sai lệch. SingleChildScrollView giữ toàn bộ cây widget trong bộ nhớ.
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        children: [
-          // Banner giới thiệu mục tiêu bài Lab
-          _buildIntroBanner(),
-          const SizedBox(height: 16),
+        child: KeyedSubtree(
+          key: ValueKey(_session),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Banner giới thiệu mục tiêu bài Lab
+              _buildIntroBanner(),
+              const SizedBox(height: 16),
 
-          // PHẦN 1: setState vs Provider
-          _buildSectionHeader(
-            icon: Icons.compare_arrows_rounded,
-            title: 'Phần 1: setState vs Provider',
-            subtitle: 'So sánh phạm vi ảnh hưởng khi cập nhật trạng thái',
+              // PHẦN 1: setState vs Provider
+              _buildSectionHeader(
+                icon: Icons.compare_arrows_rounded,
+                title: 'Phần 1: setState vs Provider',
+                subtitle: 'So sánh phạm vi ảnh hưởng khi cập nhật trạng thái',
+              ),
+              const SizedBox(height: 8),
+              const _SetStateDemoCard(),
+              const SizedBox(height: 12),
+              const _ProviderDemoCard(),
+              const SizedBox(height: 24),
+
+              // PHẦN 2: 4 cách đọc state trong Provider
+              _buildSectionHeader(
+                icon: Icons.hub_outlined,
+                title: 'Phần 2: 4 cách đọc state trong Provider',
+                subtitle: 'Phân biệt context.watch, Consumer, context.select và context.read',
+              ),
+              const SizedBox(height: 8),
+              const _WatchCard(),
+              const SizedBox(height: 10),
+              const _ConsumerCard(),
+              const SizedBox(height: 10),
+              const _SelectCard(),
+              const SizedBox(height: 10),
+              const _ReadCard(),
+              const SizedBox(height: 24),
+
+              // PHẦN 3: Thanh điều khiển bộ đếm
+              _ControlPanelCard(onResetBuildCounters: _resetBuildCounters),
+              const SizedBox(height: 24),
+            ],
           ),
-          const SizedBox(height: 8),
-          const _SetStateDemoCard(),
-          const SizedBox(height: 12),
-          const _ProviderDemoCard(),
-          const SizedBox(height: 24),
-
-          // PHẦN 2: 4 cách đọc state trong Provider
-          _buildSectionHeader(
-            icon: Icons.hub_outlined,
-            title: 'Phần 2: 4 cách đọc state trong Provider',
-            subtitle: 'Phân biệt context.watch, Consumer, context.select và context.read',
-          ),
-          const SizedBox(height: 8),
-          const _WatchCard(),
-          const SizedBox(height: 10),
-          const _ConsumerCard(),
-          const SizedBox(height: 10),
-          const _SelectCard(),
-          const SizedBox(height: 10),
-          const _ReadCard(),
-          const SizedBox(height: 24),
-
-          // PHẦN 3: Thanh điều khiển bộ đếm
-          _ControlPanelCard(onResetBuildCounters: _resetBuildCounters),
-          const SizedBox(height: 24),
-        ],
+        ),
       ),
     );
   }
@@ -206,11 +218,12 @@ class _SetStateDemoCardState extends State<_SetStateDemoCard> {
             children: [
               const Icon(Icons.cancel_outlined, size: 18, color: Colors.red),
               const SizedBox(width: 6),
-              const Text(
-                'Khối A: StatefulWidget + setState',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              const Expanded(
+                child: Text(
+                  'Khối A: StatefulWidget + setState',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                ),
               ),
-              const Spacer(),
               BuildCountChip(count: parentHits, label: 'Khối cha'),
             ],
           ),
@@ -314,11 +327,12 @@ class _ProviderDemoCard extends StatelessWidget {
             children: [
               const Icon(Icons.check_circle_outline, size: 18, color: Colors.green),
               const SizedBox(width: 6),
-              const Text(
-                'Khối B: Quản lý bằng LabNotifier',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+              const Expanded(
+                child: Text(
+                  'Khối B: Quản lý bằng LabNotifier',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                ),
               ),
-              const Spacer(),
               BuildCountChip(count: parentHits, label: 'Khối cha'),
             ],
           ),
@@ -446,11 +460,12 @@ class _WatchCard extends StatelessWidget {
               children: [
                 const Icon(Icons.visibility_outlined, size: 20, color: Colors.indigo),
                 const SizedBox(width: 8),
-                const Text(
-                  '1. context.watch<LabNotifier>()',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                const Expanded(
+                  child: Text(
+                    '1. context.watch<LabNotifier>()',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
-                const Spacer(),
                 BuildCountChip(count: hits),
               ],
             ),
@@ -506,11 +521,12 @@ class _ConsumerCard extends StatelessWidget {
               children: [
                 const Icon(Icons.pie_chart_outline, size: 20, color: Colors.teal),
                 const SizedBox(width: 8),
-                const Text(
-                  '2. Consumer<LabNotifier>',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                const Expanded(
+                  child: Text(
+                    '2. Consumer<LabNotifier>',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
-                const Spacer(),
                 BuildCountChip(count: outerHits, label: 'Khung ngoài'),
               ],
             ),
@@ -531,11 +547,12 @@ class _ConsumerCard extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Text(
-                            'countA = ${notifier.countA} | countB = ${notifier.countB}',
-                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          Expanded(
+                            child: Text(
+                              'countA = ${notifier.countA} | countB = ${notifier.countB}',
+                              style: const TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                          const Spacer(),
                           BuildCountChip(count: builderHits, label: 'Trong builder'),
                         ],
                       ),
@@ -578,8 +595,12 @@ class _ConsumerStaticChild extends StatelessWidget {
         children: [
           const Icon(Icons.lock_outline, size: 14, color: Colors.black54),
           const SizedBox(width: 6),
-          const Text('Widget tĩnh (tham số child)', style: TextStyle(fontSize: 12, color: Colors.black54)),
-          const Spacer(),
+          const Expanded(
+            child: Text(
+              'Widget tĩnh (tham số child)',
+              style: TextStyle(fontSize: 12, color: Colors.black54),
+            ),
+          ),
           BuildCountChip(count: childHits, label: 'Child'),
         ],
       ),
@@ -615,11 +636,12 @@ class _SelectCard extends StatelessWidget {
               children: [
                 const Icon(Icons.filter_center_focus_outlined, size: 20, color: Colors.deepPurple),
                 const SizedBox(width: 8),
-                const Text(
-                  '3. context.select<LabNotifier, int>(...)',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                const Expanded(
+                  child: Text(
+                    '3. context.select<LabNotifier, int>(...)',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
-                const Spacer(),
                 BuildCountChip(count: hits),
               ],
             ),
@@ -679,11 +701,12 @@ class _ReadCard extends StatelessWidget {
               children: [
                 const Icon(Icons.touch_app_outlined, size: 20, color: Colors.orange),
                 const SizedBox(width: 8),
-                const Text(
-                  '4. context.read<LabNotifier>() (Thao tác)',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                const Expanded(
+                  child: Text(
+                    '4. context.read<LabNotifier>() (Thao tác)',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
-                const Spacer(),
                 BuildCountChip(count: hits),
               ],
             ),

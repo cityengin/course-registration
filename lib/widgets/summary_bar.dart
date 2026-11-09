@@ -113,24 +113,27 @@ class SummaryBar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tối thiểu: ${RegistrationNotifier.minCredits} TC',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                    ),
-                    Text(
-                      'Tối đa: ${RegistrationNotifier.maxCredits} TC',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                    ),
-                  ],
-                ),
+                // [LỖI 6]: Nhúng widget con tĩnh từ tham số child của Consumer
+                child!,
               ],
             ),
           ),
         );
       },
+      // [child]: Phần tĩnh build 1 lần, không rebuild khi notifier đổi
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Tối thiểu: ${RegistrationNotifier.minCredits} TC',
+            style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+          ),
+          Text(
+            'Tối đa: ${RegistrationNotifier.maxCredits} TC',
+            style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+          ),
+        ],
+      ),
     );
   }
 }
