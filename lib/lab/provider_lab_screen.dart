@@ -43,13 +43,14 @@ class _ProviderLabViewState extends State<_ProviderLabView> {
   }
 
   void _resetBuildCounters() {
+    context.read<LabNotifier>().reset();
     RebuildTracker.resetAll();
     // [setState]: Đổi Key buộc Flutter tạo lại cây con → mọi chip về Build 1; giá trị của Khối A cũng về 0
     setState(() => _session++);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Đã đặt lại toàn bộ bộ đếm build về ban đầu (Build 1)!'),
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ),
     );

@@ -99,14 +99,17 @@ class CourseTile extends StatelessWidget {
               children: [
                 Icon(Icons.person_outline, size: 16, color: Colors.grey.shade600),
                 const SizedBox(width: 4),
-                Text(
-                  course.lecturer,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey.shade700,
+                Expanded(
+                  child: Text(
+                    course.lecturer,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 8),
                 // Nút Đăng ký / Hủy
                 isRegistered
                     ? OutlinedButton.icon(
