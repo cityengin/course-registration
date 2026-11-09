@@ -3,6 +3,7 @@ import '../data/course_catalog.dart';
 import '../lab/provider_lab_screen.dart';
 import '../widgets/course_tile.dart';
 import '../widgets/credit_badge.dart';
+import '../widgets/demo_panel.dart';
 import '../widgets/summary_bar.dart';
 import 'registered_screen.dart';
 
@@ -50,6 +51,7 @@ class CourseListScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+          const DemoPanel(),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
