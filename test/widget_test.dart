@@ -1,30 +1,102 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:course_registration/main.dart';
+import 'package:course_registration/models/course.dart';
+import 'package:course_registration/notifiers/registration_notifier.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('RegistrationNotifier Unit Tests', () {
+    late RegistrationNotifier notifier;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    setUp(() {
+      notifier = RegistrationNotifier();
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('Trạng thái khởi tạo: 0 tín chỉ, notEnough', () {
+      expect(notifier.totalCredits, 0);
+      expect(notifier.registered.isEmpty, isTrue);
+      expect(notifier.status, RegistrationStatus.notEnough);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('Đăng ký học phần thành công và tính tổng tín chỉ', () {
+      const course1 = Course(
+        id: 'c1',
+        code: 'IT001',
+        name: 'Môn 1',
+        credits: 3,
+        lecturer: 'GV A',
+      );
+      final error = notifier.register(course1);
+      expect(error, isNull);
+      expect(notifier.totalCredits, 3);
+      expect(notifier.isRegistered('c1'), isTrue);
+    });
+
+    test('Báo lỗi khi đăng ký trùng môn', () {
+      const course1 = Course(
+        id: 'c1',
+        code: 'IT001',
+        name: 'Môn 1',
+        credits: 3,
+        lecturer: 'GV A',
+      );
+      notifier.register(course1);
+      final duplicateError = notifier.register(course1);
+      expect(duplicateError, isNotNull);
+      expect(notifier.registered.length, 1);
+    });
+
+    test('Báo lỗi khi đăng ký vượt quá 24 tín chỉ', () {
+      // Đăng ký 6 môn x 4 tín chỉ = 24 tín chỉ
+      for (int i = 1; i <= 6; i++) {
+        final err = notifier.register(Course(
+          id: 'c$i',
+          code: 'IT00$i',
+          name: 'Môn $i',
+          credits: 4,
+          lecturer: 'GV',
+        ));
+        expect(err, isNull);
+      }
+      expect(notifier.totalCredits, 24);
+      expect(notifier.status, RegistrationStatus.valid);
+
+      // Đăng ký môn thứ 7 (thêm 2 tín chỉ = 26 > 24) -> Báo lỗi
+      final exceedErr = notifier.register(const Course(
+        id: 'c7',
+        code: 'IT007',
+        name: 'Môn 7',
+        credits: 2,
+        lecturer: 'GV',
+      ));
+      expect(exceedErr, isNotNull);
+      expect(notifier.totalCredits, 24);
+    });
+
+    test('Hủy môn và Hủy tất cả hoạt động đúng', () {
+      const course1 = Course(
+        id: 'c1',
+        code: 'IT001',
+        name: 'Môn 1',
+        credits: 3,
+        lecturer: 'GV A',
+      );
+      notifier.register(course1);
+      expect(notifier.registered.length, 1);
+
+      notifier.unregister('c1');
+      expect(notifier.registered.isEmpty, isTrue);
+      expect(notifier.totalCredits, 0);
+
+      notifier.register(course1);
+      notifier.clearAll();
+      expect(notifier.registered.isEmpty, isTrue);
+    });
+  });
+
+  group('Widget Tests', () {
+    testWidgets('Khởi chạy ứng dụng hiển thị đúng tiêu đề và danh sách', (WidgetTester tester) async {
+      await tester.pumpWidget(const CourseRegistrationApp());
+      expect(find.text('Đăng ký học phần'), findsOneWidget);
+    });
   });
 }
