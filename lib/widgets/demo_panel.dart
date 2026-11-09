@@ -19,6 +19,8 @@ class DemoPanel extends StatelessWidget {
       ),
       child: ExpansionTile(
         initiallyExpanded: false,
+        // [LỖI 4]: Giữ trạng thái của widget con (_NotifyLog) khi thu gọn, không bị dispose và mất nhật ký
+        maintainState: true,
         dense: true,
         leading: Icon(Icons.tune, color: Colors.indigo.shade700, size: 22),
         title: const Text(
@@ -115,16 +117,38 @@ class DemoPanel extends StatelessWidget {
                 icon: const Icon(Icons.copy_outlined, size: 15),
                 label: const Text('Thử đăng ký trùng', style: TextStyle(fontSize: 12)),
                 onPressed: () {
-                  // [context.read]: Đăng ký môn đầu tiên, sau đó đăng ký lại chính môn đó
+                  // [context.read]: Kiểm tra đăng ký trùng môn để chứng minh không gọi notifyListeners
                   final notifier = context.read<RegistrationNotifier>();
                   final firstCourse = courseCatalog.first;
 
-                  // Đảm bảo môn đã có trong danh sách
+                  // [LỖI 5]: Nếu môn đầu tiên chưa được đăng ký, đăng ký trước và thông báo bấm lại
                   if (!notifier.isRegistered(firstCourse.id)) {
-                    notifier.register(firstCourse);
+                    final err = notifier.register(firstCourse);
+                    if (err != null && context.mounted) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(err),
+                          backgroundColor: Colors.red.shade700,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    } else if (context.mounted) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Đã đăng ký trước môn ${firstCourse.name}. Bấm lại để thử đăng ký trùng.',
+                          ),
+                          backgroundColor: Colors.indigo.shade700,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                    return;
                   }
 
-                  // Thử đăng ký lại đúng môn đã có
+                  // Môn đã có sẵn trong danh sách → Thử đăng ký lại đúng môn đã có
                   final error = notifier.register(firstCourse);
                   if (error != null && context.mounted) {
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();

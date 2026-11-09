@@ -9,7 +9,7 @@
 | Thành viên | Vai trò & Nhiệm vụ thực hiện | Nhánh Git |
 | :--- | :--- | :--- |
 | **Đặng Công Thắng** | • Thiết kế kiến trúc tổng thể, model (`Course`), danh mục học phần (`courseCatalog`).<br>• Cài đặt logic nghiệp vụ & quản lý state trung tâm (`RegistrationNotifier`).<br>• Xây dựng màn chính (`CourseListScreen`), màn học phần đã đăng ký (`RegisteredScreen`).<br>• Tách các widget thành phần (`CourseTile`, `CreditBadge`, `SummaryBar`).<br>• Bảng điều khiển demo (`DemoPanel`, `_NotifyLog`) & hoàn thiện `README.md`. | `thang` |
-| **Thái** | • Xây dựng màn hình thực nghiệm chuyên sâu **Provider Lab** (`ProviderLabScreen`).<br>• Cài đặt `LabNotifier` và bộ theo dõi rebuild trực quan (`RebuildTracker`).<br>• Trực quan hóa so sánh số lần rebuild: `setState`, `context.watch`, `Consumer`, `context.select`, `context.read` qua chip `Build: n`. | `thai` |
+| **<Họ tên đầy đủ của Thái>** | • Xây dựng màn hình thực nghiệm chuyên sâu **Provider Lab** (`ProviderLabScreen`).<br>• Cài đặt `LabNotifier` và bộ theo dõi rebuild trực quan (`RebuildTracker`).<br>• Trực quan hóa so sánh số lần rebuild: `setState`, `context.watch`, `Consumer`, `context.select`, `context.read` qua chip `Build: n`. | `thai` |
 
 ---
 
@@ -21,7 +21,7 @@
 | **ChangeNotifierProvider (Toàn cục)** | `lib/main.dart` | Bọc ngoài cùng quanh `MaterialApp` để cung cấp thể hiện duy nhất của `RegistrationNotifier` cho tất cả các màn hình (`CourseListScreen`, `RegisteredScreen`). |
 | **ChangeNotifierProvider (Cục bộ)** | `lib/lab/provider_lab_screen.dart` | Bọc riêng cho màn hình Lab với `LabNotifier`. State tự động giải phóng (`dispose()`) khi người dùng thoát khỏi màn hình (pop Navigator). |
 | **context.watch** | `lib/widgets/credit_badge.dart`<br>`lib/views/registered_screen.dart` | Đăng ký widget làm listener; tự động kích hoạt rebuild toàn bộ widget khi `notifyListeners()` được gọi (dùng cho badge tín chỉ trên AppBar và danh sách đã đăng ký). |
-| **Consumer** | `lib/widgets/summary_bar.dart`<br>`lib/lab/provider_lab_screen.dart` | Lắng nghe thay đổi nhưng cô lập phạm vi rebuild chỉ trong hàm `builder`, tối ưu hiệu năng render giao diện. |
+| **Consumer** | `lib/widgets/summary_bar.dart`<br>`lib/lab/provider_lab_screen.dart` | Lắng nghe thay đổi nhưng cô lập phạm vi rebuild chỉ trong hàm `builder`, tối ưu hiệu năng render giao diện (dùng tham số child cho phần tĩnh). |
 | **context.select** | `lib/widgets/course_tile.dart`<br>`lib/lab/provider_lab_screen.dart` | Chỉ lắng nghe một phần dữ liệu cụ thể (`isRegistered(id)`). Widget chỉ rebuild khi giá trị được chọn thay đổi, bỏ qua các thay đổi khác. |
 | **context.read** | Các nút bấm trong `CourseTile`, `RegisteredScreen`, `DemoPanel`, `ProviderLabScreen` | Truy xuất Notifier để gọi phương thức thực thi (`register`, `unregister`, `clearAll`) mà KHÔNG đăng ký lắng nghe rebuild. |
 | **addListener & removeListener** | `lib/widgets/demo_panel.dart` (`_NotifyLog`) | Minh họa cơ chế nền tảng của `ChangeNotifier`. Provider thực chất sử dụng cơ chế `addListener` này bên dưới để kích hoạt widget rebuild. |
@@ -79,7 +79,7 @@ flutter pub get
 ```bash
 flutter test
 ```
-*(Tất cả 6 bài test về khởi tạo state, đăng ký thành công, chặn đăng ký trùng môn, chặn vượt 24 TC, hủy môn và render widget đều đã vượt qua 100%).*
+*(Tất cả 5 unit test cho RegistrationNotifier + 2 widget test (khởi chạy app, kịch bản DemoPanel) đều đã vượt qua 100%).*
 
 ---
 
@@ -95,23 +95,24 @@ flutter test
 ### Bước 2: Đồng bộ trạng thái liên màn hình
 1. Bấm vào biểu tượng **Học phần đã đăng ký** (`Icons.assignment_turned_in_outlined`) trên AppBar.
 2. Màn hình `RegisteredScreen` hiển thị danh sách các môn đã chọn.
-3. Nhấn biểu tượng thùng rác để hủy 1 môn.
+3. Nhấn nút dấu trừ đỏ (Icons.remove_circle_outline) để hủy 1 môn.
 4. Nhấn nút Back quay lại màn hình chính: Số tín chỉ trên AppBar, trạng thái nút trong danh sách và thanh tiến độ ở màn hình chính đều tự động giảm tương ứng (chứng minh việc dùng chung 1 instance State duy nhất).
 
 ### Bước 3: Sử dụng "Bảng điều khiển demo" (DemoPanel)
 Mở thẻ **Bảng điều khiển demo** ở đầu danh sách môn học:
 - **Bấm "Đăng ký đủ tối thiểu":** Hệ thống tự động chọn các môn cho đến khi tổng tín chỉ đạt $\ge 14\text{ TC}$. Thanh tiến độ và huy hiệu chuyển sang màu xanh lá (*Hợp lệ*), khu vực nhật ký bên dưới ghi nhận các lượt notify.
 - **Bấm "Thử vượt giới hạn":** Hệ thống liên tục đăng ký cho đến khi vượt quá $24\text{ TC}$, xuất hiện `SnackBar` cảnh báo màu đỏ: *"Không thể đăng ký: Tổng tín chỉ sẽ vượt quá giới hạn tối đa (24 tín chỉ)!"*.
-- **Bấm "Thử đăng ký trùng":** Hệ thống cố ý gọi `register` lại môn đã đăng ký:
+- **Bấm "Thử đăng ký trùng":** Hệ thống cố ý gọi `register` lại môn đã đăng ký (nếu chưa có môn nào, lần bấm đầu sẽ đăng ký trước môn đầu tiên; bấm lần nữa để thử trùng):
   - Một `SnackBar` màu cam hiện lên báo lỗi trùng môn.
   - **Quan sát khu Nhật ký notifyListeners:** Bộ đếm và danh sách nhật ký **hoàn toàn không tăng thêm dòng mới**. Điều này chứng minh trực quan rằng `RegistrationNotifier` chỉ gọi `notifyListeners()` khi state thật sự biến đổi.
 - **Bấm "Hủy tất cả":** Reset toàn bộ danh sách đăng ký về `0 TC`.
 
 ### Bước 4: Khám phá "Provider Lab" (Trực quan hóa Rebuild)
-1. Bấm biểu tượng kính lúp / ống nghiệm (`Icons.science_outlined`) trên AppBar để mở **Provider Lab**.
+1. Bấm biểu tượng ống nghiệm (`Icons.science_outlined`) trên AppBar để mở **Provider Lab**.
 2. Thử nghiệm so sánh 5 cách quản lý và đọc state:
-   - **Cách 1 - `setState()` truyền thống:** Bấm tăng số đếm $\rightarrow$ Cả màn hình cha và mọi con đều tăng chip `Build: n`.
+   - **Cách 1 - `setState()` truyền thống:** Bấm tăng số đếm $\rightarrow$ Cả Khối A (khối cha, Text số và widget con tĩnh) đều tăng chip `Build: n`.
    - **Cách 2 - `context.watch()`:** Khi dữ liệu thay đổi $\rightarrow$ Toàn bộ widget chứa `context.watch` bị rebuild.
    - **Cách 3 - `Consumer`:** Chỉ duy nhất khối nằm trong hàm `builder` của `Consumer` tăng số lần build, phần còn lại giữ nguyên.
    - **Cách 4 - `context.select()`:** Thay đổi các trường dữ liệu khác không làm widget rebuild; chỉ khi trường dữ liệu được chọn thay đổi thì chip mới tăng.
    - **Cách 5 - `context.read()`:** Bấm gọi hàm thoải mái $\rightarrow$ Chip `Build: 1` giữ nguyên vĩnh viễn, không bao giờ rebuild.
+   - **Nút "Đặt lại bộ đếm build":** Đưa toàn bộ chip trên màn hình về `Build: 1` và reset bộ đếm về ban đầu.
