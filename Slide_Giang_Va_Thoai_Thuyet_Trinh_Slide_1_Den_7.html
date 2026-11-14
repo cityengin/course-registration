@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Giáo Án Giảng Dạy & Lời Thoại Thuyết Trình Slide 1 - 7</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 14mm 10mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    font-size: 9pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .page {
+    page-break-after: always;
+    position: relative;
+    padding-bottom: 4mm;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  .doc-header {
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8pt;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .doc-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 3px;
+    font-size: 7.8pt;
+    color: #94a3b8;
+  }
+
+  /* Slide Image Preview */
+  .slide-img-container {
+    text-align: center;
+    margin-bottom: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0f172a;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,0.06);
+  }
+  .slide-img-container img {
+    width: 100%;
+    max-height: 215px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .slide-meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f1f5f9;
+    border-left: 4px solid #1e3a8a;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    border-radius: 0 5px 5px 0;
+  }
+  .slide-meta-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+  .slide-meta-time {
+    font-size: 8pt;
+    font-weight: 600;
+    color: #2563eb;
+    background: #dbeafe;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  h3.section-heading {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Speech Box */
+  .speech-box {
+    background: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 8.8pt;
+    color: #14532d;
+    line-height: 1.55;
+  }
+  .speech-box p {
+    margin-bottom: 5px;
+  }
+  .speech-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .stage-dir {
+    color: #047857;
+    font-weight: 700;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Pedagogical Theory Box */
+  .theory-box {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+    font-size: 8.7pt;
+    color: #1e3a8a;
+  }
+  .theory-box ul {
+    padding-left: 16px;
+    margin-top: 3px;
+  }
+  .theory-box li {
+    margin-bottom: 2px;
+    color: #334155;
+  }
+
+  /* Q&A Box */
+  .qa-box {
+    background: #fffbeb;
+    border-left: 4px solid #d97706;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    margin-top: 6px;
+    font-size: 8.5pt;
+    color: #78350f;
+  }
+
+  code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-family: Consolas, monospace;
+    font-size: 8.8pt;
+  }
+  pre {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    margin: 6px 0;
+  }
+
+  table.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 8.8pt;
+  }
+  table.styled-table th {
+    background: #1e3a8a;
+    color: #ffffff;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 600;
+  }
+  table.styled-table td {
+    border: 1px solid #e2e8f0;
+    padding: 5px 8px;
+    color: #334155;
+  }
+  table.styled-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  .cover-box {
+    text-align: center;
+    padding: 30px 10px 15px 10px;
+  }
+  .cover-box h1 {
+    font-size: 21pt;
+    color: #1e3a8a;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .cover-box h2 {
+    font-size: 13pt;
+    color: #475569;
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .badge-main {
+    display: inline-block;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 9pt;
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- TRANG BÌA & TỔNG QUAN -->
+<div class="page">
+  <div class="doc-header">
+    <span>TRƯỜNG ĐH BÁCH KHOA – ĐH ĐÀ NẴNG · KHOA ĐIỆN TỬ VIỄN THÔNG</span>
+    <span>LẬP TRÌNH ĐA NỀN TẢNG</span>
+  </div>
+  
+  <div class="cover-box">
+    <div class="badge-main">GIÁO ÁN BÀI GIẢNG TỪ CƠ BẢN NHẤT & LỜI THOẠI THUYẾT TRÌNH (SLIDE 1 ➔ 7)</div>
+    <h1>QUẢN LÝ TRẠNG THÁI VỚI PROVIDER VÀ CHANGENOTIFIER TRONG FLUTTER</h1>
+    <h2>Ứng dụng thực tế Course Registration & Phòng thí nghiệm Provider Lab</h2>
+    
+    <div style="max-width: 500px; margin: 0 auto; text-align: left; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; margin-bottom: 18px;">
+      <p style="margin-bottom: 6px;"><strong>Giảng viên hướng dẫn:</strong> TS. Nguyễn Duy Nhật Viễn</p>
+      <p style="margin-bottom: 6px;"><strong>Sinh viên báo cáo:</strong></p>
+      <ul style="padding-left: 20px; margin-bottom: 6px; font-size: 9pt;">
+        <li><strong>Đặng Công Thắng</strong> – Lớp 23KTMT2 – MSSV: 106230061 (Thuyết trình Slide 1–7)</li>
+        <li><strong>Võ Văn Thái</strong> – Lớp 23KTMT1 – MSSV: 106230027 (Thuyết trình Slide 8–14)</li>
+      </ul>
+      <p style="font-size: 8.5pt;"><strong>Mã nguồn GitHub:</strong> <code>https://github.com/cityengin/course-registration.git</code></p>
+    </div>
+
+    <div style="background: #eff6ff; border-left: 4px solid #2563eb; text-align: left; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 18px;">
+      <strong style="color: #1e3a8a; font-size: 9pt;">MỤC TIÊU CỐT LÕI CỦA TÀI LIỆU (SLIDE 1 ĐẾN 7):</strong>
+      <p style="font-size: 8.8pt; color: #334155; margin-top: 4px;">
+        Giảng giải từ gốc rễ bản chất của Flutter (Cây Widget, State là gì, hạn chế của setState, Prop Drilling, Over-rebuilding) đến kiến trúc phân lớp sạch, luồng dữ liệu một chiều khép kín, thiết kế RegistrationNotifier chứa toàn bộ nghiệp vụ, phân biệt Provider Toàn cục vs Cục bộ, và phân tích sâu 4 cách đọc State trong Provider. Kèm lời thoại thuyết trình chuẩn từng câu chữ để người báo cáo tự tin cầm mic.
+      </p>
+    </div>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th style="width: 12%;">Slide</th>
+        <th style="width: 33%;">Chủ đề bài giảng</th>
+        <th style="width: 40%;">Mục tiêu truyền tải & Kiến thức trọng tâm</th>
+        <th style="width: 15%;">Thời lượng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Slide 1</strong></td>
+        <td>Trang tiêu đề & Giới thiệu</td>
+        <td>Đặt vấn đề State Management trong ứng dụng thực tế</td>
+        <td>~45 giây</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 2</strong></td>
+        <td>Phân công nhiệm vụ</td>
+        <td>Tính tương hỗ: Nghiệp vụ thực tế (Thắng) vs Phòng Lab đo đếm (Thái)</td>
+        <td>~45 giây</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 3</strong></td>
+        <td>Tổng quan & Tại sao cần Provider?</td>
+        <td>Nỗi đau của setState (Prop Drilling & Over-rebuild); 3 khối giải pháp</td>
+        <td>~1m15s</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 4</strong></td>
+        <td>Kiến trúc phân lớp & Luồng 1 chiều</td>
+        <td>Tách biệt 3 tầng UI - State - Data; Luồng Unidirectional Data Flow</td>
+        <td>~1m15s</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 5</strong></td>
+        <td>RegistrationNotifier & Nghiệp vụ</td>
+        <td>Encapsulation (unmodifiable), fold(), Conditional Notification</td>
+        <td>~1m30s</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 6</strong></td>
+        <td>Provider Toàn cục vs Cục bộ</td>
+        <td>Global (main.dart) vs Scoped (tự dispose() dọn sạch RAM)</td>
+        <td>~1m15s</td>
+      </tr>
+      <tr>
+        <td><strong>Slide 7</strong></td>
+        <td>Bốn cách đọc State trong Provider</td>
+        <td>Trục thu hẹp rebuild: watch, Consumer, select, read & Quy tắc vàng</td>
+        <td>~1m45s</td>
+      </tr>
+      <tr style="font-weight: bold; background: #e0f2fe;">
+        <td colspan="3">TỔNG THỜI LƯỢNG NỬA ĐẦU BÁO CÁO (SLIDE 1 - 7)</td>
+        <td>~ 8 phút 30 giây</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 1 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 1: TRANG TIÊU ĐỀ</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_1.png" alt="Slide 1: Trang tiêu đề">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 1: QUẢN LÝ TRẠNG THÁI VỚI PROVIDER VÀ CHANGENOTIFIER</div>
+    <div class="slide-meta-time">Thời lượng: ~45 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Bản chất State (Trạng thái) trong Flutter:</strong>
+    <ul>
+      <li>Giao diện trong Flutter là hàm số của dữ liệu: <code>UI = f(State)</code>. Khi dữ liệu thay đổi, giao diện bắt buộc phải được dựng lại để phản ánh con số mới.</li>
+      <li>Trong một ứng dụng nhỏ (1 màn hình), dữ liệu chỉ sống cục bộ. Nhưng trong một ứng dụng thực tế (đăng ký môn học, giỏ hàng thương mại điện tử), cùng một thông tin cần được hiển thị ở nhiều màn hình khác nhau.</li>
+      <li><strong>Quản lý trạng thái (State Management)</strong> là phương pháp kiến trúc giúp dữ liệu được chia sẻ nhất quán, an toàn, dễ bảo trì và chỉ vẽ lại đúng phần giao diện bị thay đổi mà không làm chậm ứng dụng.</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p><span class="stage-dir">[Cúi đầu chào trang trọng, mắt nhìn bao quát giảng viên và các bạn sinh viên]</span></p>
+    <p>"Kính thưa thầy Nguyễn Duy Nhật Viễn cùng toàn thể các bạn sinh viên đang có mặt trong buổi báo cáo chuyên đề ngày hôm nay!</p>
+    <p>Em tên là <strong>Đặng Công Thắng</strong>, đại diện cho nhóm gồm em và bạn <strong>Võ Văn Thái</strong>, xin phép được trình bày đề tài nghiên cứu của nhóm với chuyên đề: <strong>'Quản lý trạng thái với Provider và ChangeNotifier trong Flutter'</strong>, thông qua sản phẩm thực tế là ứng dụng <strong>Đăng ký học phần – Course Registration</strong> và phòng thí nghiệm thực nghiệm <strong>Provider Lab</strong>.</p>
+    <p>Khi mới bước chân vào lập trình Flutter, ai trong chúng ta cũng cảm thấy rất hào hứng với việc kéo thả, sắp xếp các Widget để tạo nên giao diện đẹp mắt. Tuy nhiên, khi ứng dụng phát triển từ một màn hình đơn giản thành một hệ thống thực tế có nhiều màn hình, dữ liệu đan xen, chúng ta sẽ ngay lập tức đối mặt với một thách thức lớn: <em>Làm thế nào để chia sẻ dữ liệu giữa các màn hình một cách đồng bộ, mã nguồn sạch sẽ, dễ mở rộng và đạt hiệu năng tối ưu nhất?</em> Đó chính là lý do nhóm em thực hiện chuyên đề này.</p>
+    <p>Toàn bộ mã nguồn dự án đã được nhóm công khai trên GitHub tại địa chỉ <code>github.com/cityengin/course-registration</code>. Ngay sau đây, em xin phép bắt đầu phần trình bày của nhóm."</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 2 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 2: PHÂN CÔNG NHIỆM VỤ</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_2.png" alt="Slide 2: Phân công nhiệm vụ">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 2: PHÂN CÔNG NHIỆM VỤ & TINH THẦN CỘNG TÁC</div>
+    <div class="slide-meta-time">Thời lượng: ~45 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Cấu trúc phân công mang tính bổ trợ kỹ thuật:</strong>
+    <ul>
+      <li><strong>Đặng Công Thắng (52%):</strong> Phụ trách tầng Nghiệp vụ & Kiến trúc người dùng (Model <code>Course</code>, <code>RegistrationNotifier</code> với ràng buộc 14–24 TC, 2 màn hình chính, 3 widget tách biệt, bảng demo panel, kiểm thử tự động).</li>
+      <li><strong>Võ Văn Thái (48%):</strong> Phụ trách tầng Thực nghiệm khoa học & Đo lường (Màn hình <code>ProviderLabScreen</code>, <code>LabNotifier</code> cục bộ, tiện ích <code>RebuildTracker</code> kết hợp chip đếm <code>Build: n</code>, đo đếm và đối chiếu số lần rebuild thực tế giữa <code>setState</code> và 4 cách đọc State).</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p><span class="stage-dir">[Chuyển slide, chỉ tay hướng về hai cột phân công trên slide]</span></p>
+    <p>"Ở slide thứ 2, em xin tóm lược bảng phân công công việc của nhóm:</p>
+    <p>Để đề tài không dừng lại ở mức lý thuyết sách vở mà có cả một ứng dụng nghiệp vụ hoàn chỉnh lẫn công cụ chứng minh khoa học, nhóm em đã phân chia hai mảng nhiệm vụ tương hỗ rất rõ ràng:</p>
+    <p>- Về phần em – <strong>Đặng Công Thắng</strong>, em chịu trách nhiệm thiết kế kiến trúc phân lớp tổng thể, mô hình dữ liệu, xây dựng Notifier trung tâm quản lý trọn vẹn nghiệp vụ đăng ký tín chỉ từ 14 đến 24 tín chỉ, hoàn thiện 2 màn hình chính của ứng dụng và các kịch bản demo kiểm thử tự động.</p>
+    <p>- Về phần bạn <strong>Võ Văn Thái</strong>, bạn Thái tập trung phát triển phòng thí nghiệm <strong>Provider Lab</strong> độc lập. Đây là một môi trường thực nghiệm giúp đo đếm chính xác từng lần gọi hàm <code>build()</code> của các widget, qua đó chứng minh bằng số liệu thực tế sự khác biệt giữa <code>setState</code> và 4 cách đọc dữ liệu khác nhau của Provider.</p>
+    <p>Hai phần việc tương hỗ chặt chẽ với tỷ lệ đóng góp lần lượt là 52% và 48%."</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 3 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 3: TỔNG QUAN & ĐẶT VẤN ĐỀ</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_3.png" alt="Slide 3: Tổng quan đề tài & kiến trúc giải pháp">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 3: TỔNG QUAN ĐỀ TÀI & TẠI SAO CẦN PROVIDER?</div>
+    <div class="slide-meta-time">Thời lượng: ~1 phút 15 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Hai vấn đề nan giải của <code>setState()</code> trong Flutter:</strong>
+    <ul>
+      <li><strong>Prop Drilling (Chuyền tham số qua nhiều tầng):</strong> <code>setState()</code> chỉ có phạm vi cục bộ bên trong một <code>StatefulWidget</code>. Muốn đưa dữ liệu lên thanh AppBar hoặc sang màn hình khác, ta phải truyền biến và callback qua hàng loạt Widget trung gian không liên quan, làm mã nguồn rối rắm và khó bảo trì.</li>
+      <li><strong>Over-rebuilding (Vẽ lại diện rộng):</strong> Khi gọi <code>setState()</code> ở Widget cha, mặc định toàn bộ cây Widget con cháu bên dưới bị ép chạy lại hàm <code>build()</code>, gây lãng phí tài nguyên CPU/GPU và gây giật khung hình (drop FPS).</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p>"Thưa thầy và các bạn, để thấy được giá trị của Provider, chúng ta hãy bắt đầu từ <strong>vấn đề căn bản nhất của cây giao diện Flutter</strong>:</p>
+    <p>Hãy hình dung một kịch bản rất thực tế: Sinh viên nhấn vào nút 'Đăng ký' môn 'Lập trình đa nền tảng'. Ngay lập tức, có 4 vị trí trên giao diện cần cập nhật đồng thời:</p>
+    <p>1. Huy hiệu tổng số tín chỉ trên thanh AppBar góc trên phải nhảy số.<br>
+    2. Thẻ môn học đó phải đổi sang viền xanh với nút 'Hủy môn'.<br>
+    3. Thanh tiến độ dưới chân màn hình phải tăng lên.<br>
+    4. Khi mở màn hình 'Các môn đã đăng ký', môn này cũng phải xuất hiện ngay.</p>
+    <p>Nếu chỉ dùng giải pháp sơ khai là <code>setState()</code>: Widget cha trên đỉnh phải giữ biến State, sau đó chuyền biến và callback qua 4–5 tầng widget trung gian. Các widget ở giữa không cần nhưng vẫn phải nhận và chuyền tiếp. Hơn thế nữa, mỗi lần gọi <code>setState()</code>, toàn bộ cây con bị ép vẽ lại từ đầu, gây lãng phí tài nguyên.</p>
+    <p>Vì vậy, nhóm em đã xây dựng một giải pháp hoàn chỉnh gồm 3 khối: Ứng dụng đăng ký học phần chuẩn nghiệp vụ tín chỉ ĐHBK; Bảng Demo Panel quan sát từng xung nhịp notify; và Phòng thí nghiệm Provider Lab đo đếm số lần rebuild thực tế – bảo chứng bởi 7 bài test tự động đạt 100%."</p>
+  </div>
+
+  <div class="qa-box">
+    <strong>💡 Câu hỏi phản biện có thể gặp:</strong> <em>"Tại sao nhóm chọn Provider mà không dùng GetX hay Bloc?"</em><br>
+    <strong>Gợi ý trả lời:</strong> <em>"Thưa thầy, Provider là giải pháp chính thức được Google khuyến nghị trong tài liệu Flutter. Nó xây dựng trực tiếp trên nền tảng InheritedWidget của Flutter, có tính cấu trúc cao, không phá vỡ cây Widget như GetX và cú pháp gọn gàng hơn rất nhiều so với Bloc."</em>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 4 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 4: KIẾN TRÚC PHÂN LỚP & LUỒNG DỮ LIỆU</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_4.png" alt="Slide 4: Kiến trúc phân lớp và luồng dữ liệu một chiều">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 4: KIẾN TRÚC PHÂN LỚP & LUỒNG DỮ LIỆU MỘT CHIỀU</div>
+    <div class="slide-meta-time">Thời lượng: ~1 phút 15 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Nguyên lý Luồng dữ liệu một chiều (Unidirectional Data Flow):</strong>
+    <ul>
+      <li><strong>Giao diện (UI) không bao giờ tự ý sửa dữ liệu:</strong> UI chỉ bắt sự kiện người dùng và dùng <code>context.read</code> gửi thông điệp yêu cầu Notifier xử lý.</li>
+      <li><strong>Notifier là nơi duy nhất giữ quyền cập nhật State:</strong> Xử lý kiểm tra điều kiện, nếu hợp lệ thì sửa dữ liệu và phát tín hiệu <code>notifyListeners()</code>.</li>
+      <li><strong>Widget đăng ký lắng nghe tự động Rebuild:</strong> Nhận tín hiệu từ Notifier và tự động cập nhật giao diện mới. Dữ liệu đi theo 1 vòng khép kín duy nhất, giúp ứng dụng không bao giờ bị xung đột dữ liệu ngầm.</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p><span class="stage-dir">[Chỉ tay vào sơ đồ luồng dữ liệu một chiều trên màn hình]</span></p>
+    <p>"Ở slide 4, em xin kính mời thầy và các bạn cùng quan sát linh hồn kiến trúc của ứng dụng: <strong>Mô hình phân lớp và Luồng dữ liệu một chiều</strong>.</p>
+    <p>Trong thiết kế phần mềm hiện đại, nguyên tắc cốt lõi là <strong>Separation of Concerns – Tách biệt trách nhiệm</strong>:</p>
+    <p>- Bên tay trái là <strong>Tầng Giao diện (UI)</strong>: Thẻ <code>CourseTile</code> hay các nút bấm chỉ làm đúng một việc: bắt sự kiện bấm của người dùng. Khi sinh viên bấm 'Đăng ký', thẻ này không tự ý cộng trừ tín chỉ, mà chỉ dùng lệnh <code>context.read</code> gửi một thông điệp yêu cầu Notifier xử lý.</p>
+    <p>- Ở trung tâm là <strong>RegistrationNotifier</strong>: Đây là 'bộ não' của ứng dụng. Notifier tiếp nhận yêu cầu, kiểm tra điều kiện nghiệp vụ. Nếu hợp lệ, Notifier cập nhật danh sách và phát ra một tín hiệu thông báo: <code>notifyListeners()</code>.</p>
+    <p>- Ngay khi tín hiệu này phát ra, <strong>ChangeNotifierProvider</strong> bọc ở gốc ứng dụng sẽ lập tức đánh thức các Widget con ở bên phải đang đăng ký lắng nghe nó: Huy hiệu <code>CreditBadge</code> dùng <code>watch</code> cập nhật số tín chỉ trên AppBar; Chỉ riêng thẻ <code>CourseTile</code> của môn học đó dùng <code>select</code> mới đổi trạng thái nút; và <code>SummaryBar</code> dùng <code>Consumer</code> sẽ vẽ lại thanh tiến độ.</p>
+    <p>Dữ liệu đi theo đúng một chiều khép kín: <strong>UI phát sinh hành động ➔ State biến đổi ➔ UI cập nhật</strong>. Mã nguồn nhờ đó cực kỳ trong sáng và dễ gỡ lỗi."</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 5 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 5: REGISTRATIONNOTIFIER</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_5.png" alt="Slide 5: RegistrationNotifier chứa toàn bộ nghiệp vụ">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 5: REGISTRATIONNOTIFIER – TRÁI TIM LOGIC NGHIỆP VỤ</div>
+    <div class="slide-meta-time">Thời lượng: ~1 phút 30 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">4 Nguyên tắc thiết kế State chuyên nghiệp:</strong>
+    <ul>
+      <li><strong>Đóng gói (Encapsulation):</strong> Biến <code>_registered</code> là private. Getter trả về <code>List.unmodifiable(_registered)</code> ngăn tầng UI tự ý gọi lệnh sửa trộm danh sách.</li>
+      <li><strong>Trạng thái dẫn xuất (Derived State):</strong> <code>totalCredits</code> và <code>status</code> được tính tức thì từ danh sách bằng toán tử <code>fold()</code>. Đảm bảo nguyên tắc <strong>Single Source of Truth</strong> (không bao giờ lệch số liệu giữa danh sách và tổng tín chỉ).</li>
+      <li><strong>Notify có điều kiện:</strong> Nếu đăng ký thất bại (bị trùng môn hoặc vượt quá 24 TC), hàm trả về chuỗi lỗi và <strong>TUYỆT ĐỐI KHÔNG GỌI <code>notifyListeners()</code></strong>, bảo vệ hệ thống khỏi những lần rebuild lãng phí.</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p>"Đi sâu vào chi tiết cài đặt của bộ não ứng dụng ở Slide 5: `RegistrationNotifier` kế thừa từ `ChangeNotifier` của Flutter Foundation.</p>
+    <p>Ở đây, nhóm em tuân thủ nghiêm ngặt 4 nguyên tắc kỹ thuật chuẩn mực:</p>
+    <p>1. <strong>Thứ nhất là Tính đóng gói:</strong> Danh sách `_registered` có dấu gạch dưới, tức là hoàn toàn private. Bên ngoài chỉ có thể đọc qua getter `List.unmodifiable`. Nếu từ tầng giao diện mà cố tình gọi lệnh thêm hay xóa trực tiếp vào danh sách thì chương trình sẽ báo lỗi ngay lập tức. Điều này bảo vệ dữ liệu không bị sửa đổi ngoài ý muốn.</p>
+    <p>2. <strong>Thứ hai là Trạng thái dẫn xuất (Derived State):</strong> Chúng ta không tạo thêm một biến `int totalCredits = 0;` rồi mỗi lần thêm môn lại cộng dồn thủ công. Ở đây, `totalCredits` là một getter tính toán tức thì bằng hàm `fold()` trực tiếp từ danh sách học phần hiện có. Danh sách là nguồn chân lý duy nhất.</p>
+    <p>3. <strong>Thứ ba là Ràng buộc quy chế đào tạo:</strong> Toàn bộ quy định về tín chỉ tối thiểu 14, tối đa 24 và chống đăng ký trùng môn đều được gom tập trung xử lý tại đây.</p>
+    <p>4. <strong>Và thứ tư – nguyên tắc tối ưu then chốt: Notify có điều kiện:</strong><br>
+    Nếu sinh viên bấm đăng ký một môn đã có rồi, hoặc nếu cộng thêm môn này mà vượt quá 24 tín chỉ, hàm lập tức trả về chuỗi thông báo lỗi và thoát ra. <strong>Tuyệt đối không gọi `notifyListeners()`!</strong> Nhờ vậy, không một widget nào trên màn hình bị kích hoạt vẽ lại vô ích. Đây chính là cách nhóm tối ưu hóa hiệu năng ngay từ tầng logic nghiệp vụ."</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 6 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 6: PHẠM VI CUNG CẤP STATE</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_6.png" alt="Slide 6: Cung cấp state toàn cục và cục bộ">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 6: CUNG CẤP STATE: TOÀN CỤC VS CỤC BỘ</div>
+    <div class="slide-meta-time">Thời lượng: ~1 phút 15 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Vai trò của ChangeNotifierProvider & Quản lý vòng đời (Lifecycle):</strong>
+    <ul>
+      <li><code>ChangeNotifierProvider</code> đóng vai trò là cầu nối đưa Notifier xuống cây Widget qua cơ chế <code>InheritedWidget</code>.</li>
+      <li><strong>Toàn cục (Global - main.dart):</strong> Bọc ngoài <code>MaterialApp</code>. Dữ liệu đăng ký sống suốt thời gian chạy app, dùng chung giữa màn hình chính và màn hình môn đã chọn.</li>
+      <li><strong>Cục bộ (Scoped - provider_lab_screen.dart):</strong> Bọc riêng cho màn hình Lab. Khi người dùng bấm Back rời khỏi Lab, Provider sẽ tự động gọi phương thức <code>dispose()</code> của Notifier để giải phóng tài nguyên bộ nhớ RAM, chống triệt để nguy cơ Memory Leak.</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p>"Sau khi đã xây dựng xong Notifier, câu hỏi cơ bản tiếp theo là: <strong>Làm thế nào để các Widget trên cây giao diện có thể tìm thấy và lấy dữ liệu từ Notifier này?</strong> Câu trả lời nằm ở `ChangeNotifierProvider` tại Slide 6.</p>
+    <p>Trong đề tài này, nhóm em vận dụng linh hoạt cả hai mô hình cung cấp State tùy theo mục đích:</p>
+    <p>1. <strong>Thứ nhất là Provider Toàn cục (Global):</strong> Được khai báo tại `main.dart`, bọc ngay bên ngoài `MaterialApp`. Vì sao? Vì dữ liệu đăng ký học phần cần được chia sẻ giữa hai màn hình khác nhau: Màn hình danh sách môn học và Màn hình các học phần đã đăng ký. Khi chuyển qua lại giữa các màn hình, cả hai đều đang dùng chung một thể hiện `RegistrationNotifier` duy nhất.</p>
+    <p>2. <strong>Thứ hai là Provider Cục bộ (Scoped Provider):</strong> Được đặt riêng trong `provider_lab_screen.dart`. Tại sao không đặt chung `LabNotifier` lên toàn cục?*<br>
+    - Thứ nhất: Màn hình Lab chỉ là nơi thực nghiệm đo số lần build, nó cần được cô lập hoàn toàn, không can thiệp vào dữ liệu đăng ký thật.<br>
+    - Thứ hai: <strong>Về quản lý bộ nhớ</strong>. Khi bọc cục bộ tại màn hình Lab, `LabNotifier` chỉ được sinh ra khi người dùng mở màn hình Lab. Khi bấm nút Back thoát ra, `ChangeNotifierProvider` sẽ tự động phát hiện và gọi ngay hàm `dispose()` để giải phóng `LabNotifier` khỏi bộ nhớ RAM.</p>
+    <p>Việc hiểu và phân định rõ ràng khi nào dùng Toàn cục, khi nào dùng Cục bộ chính là yếu tố giúp ứng dụng hoạt động nhẹ nhàng và chống rò rỉ bộ nhớ."</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 7 / 8</span>
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="page">
+  <div class="doc-header">
+    <span>GIÁO ÁN CHI TIẾT THEO SLIDE</span>
+    <span>SLIDE 7: 4 CÁCH ĐỌC STATE</span>
+  </div>
+
+  <div class="slide-img-container">
+    <img src="slides_img/slide_7.png" alt="Slide 7: Bốn cách đọc state trong Provider">
+  </div>
+
+  <div class="slide-meta-bar">
+    <div class="slide-meta-title">SLIDE 7: BỐN CÁCH ĐỌC STATE TRONG PROVIDER</div>
+    <div class="slide-meta-time">Thời lượng: ~1 phút 45 giây</div>
+  </div>
+
+  <h3 class="section-heading">📖 Giảng giải từ cơ bản nhất (Pedagogical Foundation):</h3>
+  <div class="theory-box">
+    <strong style="color: #1e3a8a;">Trục thu hẹp phạm vi Rebuild & Quy tắc vàng:</strong>
+    <ul>
+      <li><code>context.watch&lt;T&gt;()</code>: Đăng ký toàn phần, rebuild mỗi khi có notify $\rightarrow$ Dùng cho widget nhỏ như <code>CreditBadge</code> trên AppBar.</li>
+      <li><code>Consumer&lt;T&gt;</code>: Chỉ rebuild hàm <code>builder</code>, tham số <code>child</code> giữ lại phần UI tĩnh $\rightarrow$ Dùng cho <code>SummaryBar</code>.</li>
+      <li><code>context.select&lt;T, R&gt;()</code>: <strong>Chỉ rebuild khi giá trị con <code>R</code> đổi</strong> $\rightarrow$ Dùng cho <code>CourseTile</code> (môn nào đổi trạng thái thì chỉ môn đó rebuild).</li>
+      <li><code>context.read&lt;T&gt;()</code>: <strong>Không bao giờ rebuild</strong> $\rightarrow$ Dùng trong các sự kiện bấm nút <code>onPressed</code>.</li>
+      <li><strong>Quy tắc vàng:</strong> <code>watch/select/Consumer</code> trong <code>build()</code>; <code>context.read</code> trong callback sự kiện!</li>
+    </ul>
+  </div>
+
+  <h3 class="section-heading">🎙️ Lời thoại thuyết trình chi tiết (Speaker Notes):</h3>
+  <div class="speech-box">
+    <p><span class="stage-dir">[Nhấn mạnh giọng, truyền cảm hứng, bước chuyển giao sang người thuyết trình tiếp theo]</span></p>
+    <p>"Và đây chính là Slide 7 – <strong>Slide quan trọng nhất trong toàn bộ phần lý thuyết nền tảng</strong>: Bốn phương thức đọc State trong Provider.</p>
+    <p>Nhiều lập trình viên Flutter thường phàn nàn rằng 'Tại sao dùng Provider rồi mà ứng dụng vẫn bị vẽ lại quá nhiều?'. Câu trả lời là vì chưa phân biệt được 4 cách đọc này:</p>
+    <p>1. <strong>Đầu tiên là `context.watch<T>()`:</strong> Đây là cách đọc toàn diện nhất. Cứ mỗi khi Notifier gọi `notifyListeners()`, toàn bộ Widget gọi hàm `watch` này sẽ bị build lại. Ta dùng nó cho những Widget nhỏ hiển thị trạng thái tổng quan, ví dụ như huy hiệu `CreditBadge` trên AppBar.</p>
+    <p>2. <strong>Thứ hai là `Consumer<T>`:</strong> Khi một Widget có kích thước lớn, chứa nhiều thành phần tĩnh như banner, tiêu đề, ta không muốn toàn bộ Widget đó bị vẽ lại. `Consumer` giúp ta khoanh vùng: Chỉ có hàm `builder` của nó chạy lại, còn phần giao diện tĩnh được đưa vào tham số `child` sẽ được tái sử dụng nguyên vẹn mà không tốn tài nguyên render.</p>
+    <p>3. <strong>Thứ ba – Đỉnh cao của việc tối ưu – là `context.select<T, R>()`:</strong> Hãy tưởng tượng danh sách của chúng ta có 10 môn học. Khi sinh viên bấm đăng ký Môn số 1, ta chỉ muốn thẻ Môn số 1 đổi trạng thái. Chín môn còn lại không hề đổi thì tuyệt đối không được phép rebuild! `context.select` giải quyết việc này xuất sắc: Nó chỉ theo dõi đúng giá trị `isRegistered(id)`. Khi tổng tín chỉ tăng nhưng trạng thái môn này không đổi, thẻ môn này hoàn toàn không rebuild.</p>
+    <p>4. <strong>Và cuối cùng là `context.read<T>()`:</strong> Phương thức này hoàn toàn <strong>KHÔNG</strong> đăng ký lắng nghe. Nó chỉ lấy tham chiếu của Notifier để gọi hàm, ví dụ `notifier.register(course)`. Do đó, nó sinh ra là để đặt bên trong các sự kiện bấm nút `onPressed`.</p>
+    <p>👉 Nhóm em xin đúc kết thành <strong>Quy tắc vàng:</strong> `watch`, `select` và `Consumer` dùng trong hàm `build()`; còn `context.read` luôn luôn đặt trong callback sự kiện!</p>
+    <p>Và để chứng minh cho thầy và các bạn thấy sự chênh lệch rõ rệt về số lần rebuild giữa các cách đọc này trên thực tế, sau đây em xin phép nhường lại phần trình bày tiếp theo cho bạn <strong>Võ Văn Thái</strong> để đưa chúng ta bước vào các Slide thực nghiệm chuyên sâu và tham quan phòng thí nghiệm Provider Lab! Xin trân trọng cảm ơn thầy và các bạn!"</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Trang 8 / 8</span>
+  </div>
+</div>
+
+</body>
+</html>
