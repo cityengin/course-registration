@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Slide Bài Giảng Provider & ChangeNotifier (Slide 1 - 7)</title>
+<style>
+  @page {
+    size: 16in 9in;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+    background: #0f172a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .slide {
+    width: 16in;
+    height: 9in;
+    page-break-after: always;
+    background: #ffffff;
+    position: relative;
+    padding: 0.65in 0.9in 0.55in 0.9in;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .slide-header {
+    margin-bottom: 0.35in;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.18in;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .slide-title {
+    font-size: 32pt;
+    font-weight: 700;
+    color: #1e3a8a;
+    line-height: 1.15;
+  }
+  .slide-badge {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #bfdbfe;
+    white-space: nowrap;
+  }
+  .slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .slide-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 0.15in;
+    font-size: 13pt;
+    color: #64748b;
+  }
+
+  /* Cover Slide */
+  .cover-slide {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1e40af 100%);
+    color: #ffffff;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1.1in 1.2in;
+  }
+  .cover-tag {
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #38bdf8;
+    margin-bottom: 0.25in;
+  }
+  .cover-title {
+    font-size: 44pt;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 0.2in;
+  }
+  .cover-subtitle {
+    font-size: 22pt;
+    font-weight: 400;
+    color: #cbd5e1;
+    margin-bottom: 0.6in;
+    font-style: italic;
+  }
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 0.6in;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 0.35in;
+  }
+  .meta-block h4 {
+    font-size: 13pt;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .meta-block p {
+    font-size: 16pt;
+    color: #f1f5f9;
+    line-height: 1.5;
+  }
+  .meta-block strong {
+    color: #ffffff;
+  }
+
+  /* Two Column Grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4in;
+    height: 100%;
+  }
+
+  .card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.3in 0.35in;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-highlight {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .card-primary {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+  }
+  .card-header-badge {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.2in;
+  }
+  .card-title {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+  .percent-badge {
+    font-size: 18pt;
+    font-weight: 800;
+    background: #1e3a8a;
+    color: #ffffff;
+    padding: 4px 16px;
+    border-radius: 12px;
+  }
+
+  ul.bullet-list {
+    list-style: none;
+  }
+  ul.bullet-list li {
+    font-size: 16pt;
+    line-height: 1.6;
+    margin-bottom: 0.15in;
+    position: relative;
+    padding-left: 28px;
+    color: #334155;
+  }
+  ul.bullet-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    top: -2px;
+    font-size: 24pt;
+    color: #2563eb;
+  }
+
+  /* Problem Box */
+  .alert-box {
+    background: #fff1f2;
+    border-left: 6px solid #e11d48;
+    border-radius: 10px;
+    padding: 0.22in 0.3in;
+    margin-bottom: 0.35in;
+    font-size: 17pt;
+    color: #881337;
+    line-height: 1.5;
+  }
+  .alert-box strong {
+    color: #be123c;
+    font-size: 18pt;
+  }
+
+  /* Three Cards Row */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.3in;
+  }
+  .module-card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.25in;
+  }
+  .module-card h3 {
+    font-size: 19pt;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 6px;
+  }
+  .module-card .module-sub {
+    font-size: 13pt;
+    color: #64748b;
+    margin-bottom: 0.2in;
+    font-weight: 500;
+  }
+  .module-card ul li {
+    font-size: 14pt;
+    line-height: 1.5;
+    margin-bottom: 0.12in;
+    padding-left: 20px;
+  }
+  .module-card ul li::before {
+    font-size: 18pt;
+  }
+
+  /* Flow Diagram */
+  .flow-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.25in 0.4in;
+    margin-bottom: 0.35in;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.18in 0.25in;
+    text-align: center;
+    min-width: 2.2in;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  }
+  .flow-step.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+  .flow-step h4 {
+    font-size: 16pt;
+    color: #1e3a8a;
+    margin-bottom: 4px;
+  }
+  .flow-step p {
+    font-size: 12pt;
+    color: #64748b;
+  }
+  .flow-arrow {
+    font-size: 24pt;
+    color: #94a3b8;
+    font-weight: 700;
+    padding: 0 10px;
+  }
+
+  /* Code snippet block */
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 12px;
+    padding: 0.25in 0.3in;
+    font-family: "JetBrains Mono", Consolas, "Fira Code", monospace;
+    font-size: 13pt;
+    line-height: 1.55;
+    overflow: hidden;
+  }
+  .code-kw { color: #f43f5e; font-weight: 600; }
+  .code-type { color: #38bdf8; font-weight: 600; }
+  .code-fn { color: #a855f7; }
+  .code-str { color: #34d399; }
+  .code-comment { color: #94a3b8; font-style: italic; }
+
+  /* Table styling */
+  table.compare-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    font-size: 15pt;
+  }
+  table.compare-table th {
+    background: #1e3a8a;
+    color: #ffffff;
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+  }
+  table.compare-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #334155;
+    background: #ffffff;
+  }
+  table.compare-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  table.compare-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .method-badge {
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 14pt;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .badge-watch { background: #dbeafe; color: #1e40af; }
+  .badge-consumer { background: #e0e7ff; color: #4338ca; }
+  .badge-select { background: #fef3c7; color: #92400e; }
+  .badge-read { background: #dcfce7; color: #166534; }
+  .badge-setstate { background: #fee2e2; color: #991b1b; }
+
+  /* Golden rule footer banner */
+  .golden-rule-banner {
+    background: #fefce8;
+    border: 1px solid #fde047;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 15pt;
+    color: #854d0e;
+    font-weight: 600;
+    margin-top: 0.25in;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide cover-slide">
+  <div class="cover-tag">Chuyên Đề · Môn Lập Trình Đa Nền Tảng</div>
+  <div class="cover-title">Quản lý trạng thái với Provider<br>và ChangeNotifier trong Flutter</div>
+  <div class="cover-subtitle">Ứng dụng thực tế Course Registration & Phòng thí nghiệm Provider Lab</div>
+  <div class="cover-meta-grid">
+    <div class="meta-block">
+      <h4>Sinh Viên Thực Hiện</h4>
+      <p><strong>Đặng Công Thắng</strong> · Lớp 23KTMT2 · MSSV: 106230061</p>
+      <p><strong>Võ Văn Thái</strong> · Lớp 23KTMT1 · MSSV: 106230027</p>
+    </div>
+    <div class="meta-block">
+      <h4>Giảng Viên Hướng Dẫn & Đơn Vị</h4>
+      <p><strong>TS. Nguyễn Duy Nhật Viễn</strong></p>
+      <p style="font-size: 13pt; color: #94a3b8; margin-top: 4px;">Khoa Điện tử Viễn thông · Trường Đại học Bách khoa – ĐH Đà Nẵng</p>
+      <p style="font-size: 12pt; color: #38bdf8; margin-top: 6px;">Mã nguồn: github.com/cityengin/course-registration</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">Phân công nhiệm vụ & Tinh thần cộng tác</div>
+    <div class="slide-badge">Slide 2 / 14</div>
+  </div>
+  <div class="slide-content">
+    <div class="grid-2">
+      <!-- Cột Thắng -->
+      <div class="card card-primary">
+        <div class="card-header-badge">
+          <div class="card-title">Đặng Công Thắng</div>
+          <div class="percent-badge">52%</div>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Thiết kế kiến trúc tổng thể:</strong> Định hình luồng dữ liệu 1 chiều, Model <code>Course</code>, danh mục 10 học phần ĐHBK (2–4 TC).</li>
+          <li><strong>Cài đặt RegistrationNotifier:</strong> Trung tâm quản lý trạng thái và toàn bộ logic nghiệp vụ (ràng buộc 14–24 tín chỉ, ngăn trùng môn).</li>
+          <li><strong>Xây dựng 2 màn hình nghiệp vụ:</strong> <code>CourseListScreen</code> (chính) và <code>RegisteredScreen</code> (học phần đã chọn).</li>
+          <li><strong>Tách widget chuyên biệt:</strong> <code>CourseTile</code>, <code>CreditBadge</code>, <code>SummaryBar</code>.</li>
+          <li><strong>Kiểm thử & Báo cáo:</strong> Thiết kế <code>DemoPanel</code> trực quan, 7 unit & widget test tự động, slide thuyết trình.</li>
+        </ul>
+      </div>
+
+      <!-- Cột Thái -->
+      <div class="card card-highlight">
+        <div class="card-header-badge">
+          <div class="card-title">Võ Văn Thái</div>
+          <div class="percent-badge" style="background:#059669;">48%</div>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Xây dựng ProviderLabScreen:</strong> Màn hình phòng thí nghiệm độc lập phục vụ đo lường thực nghiệm số lần build.</li>
+          <li><strong>Cài đặt LabNotifier:</strong> Minh họa Provider ở phạm vi cục bộ (scoped provider), tự động giải phóng tài nguyên với <code>dispose()</code>.</li>
+          <li><strong>Bộ công cụ RebuildTracker:</strong> Cài đặt <code>RebuildTracker</code> kết hợp chip đếm <code>BuildCountChip</code> đếm chính xác số lần hàm <code>build()</code> thực thi.</li>
+          <li><strong>Thực nghiệm so sánh:</strong> Đối chiếu số liệu rebuild thực tế giữa <code>setState</code> truyền thống và 4 cách đọc State trong Provider.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Khoa ĐTVT – Trường Đại học Bách khoa, ĐHĐN</span>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">Tổng quan đề tài & Đặt vấn đề: Tại sao cần Provider?</div>
+    <div class="slide-badge">Slide 3 / 14</div>
+  </div>
+  <div class="slide-content">
+    <div class="alert-box">
+      <strong>Vấn đề cốt lõi:</strong> Cùng một dữ liệu (danh sách học phần, tổng số tín chỉ) cần hiển thị tại <strong>4 vị trí độc lập</strong>.
+      Nếu chỉ dùng <code>setState()</code>: Bị <strong>Prop Drilling</strong> (truyền tham số qua nhiều tầng) và <strong>Over-rebuilding</strong> (vẽ lại toàn bộ cây Widget con không cần thiết).
+    </div>
+
+    <div class="grid-3" style="flex: 1;">
+      <div class="module-card">
+        <h3>Course Registration</h3>
+        <div class="module-sub">Ứng dụng đăng ký học phần thực tế</div>
+        <ul class="bullet-list">
+          <li>10 học phần mẫu ĐHBK (2–4 tín chỉ, tổng 30 TC).</li>
+          <li>Ràng buộc nghiệp vụ: tối thiểu 14 TC, tối đa 24 TC.</li>
+          <li>Đồng bộ trạng thái 2 chiều tức thì giữa 2 màn hình.</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <h3>Demo Panel</h3>
+        <div class="module-sub">Bảng điều khiển trực quan hóa xung nhịp</div>
+        <ul class="bullet-list">
+          <li>4 kịch bản thao tác nhanh (Đủ tối thiểu, Quá tải, Trùng môn, Reset).</li>
+          <li>Nhật ký <code>notifyListeners()</code> thời gian thực.</li>
+          <li>Chứng minh: <em>Chỉ notify khi state thật sự đổi</em>.</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <h3>Provider Lab</h3>
+        <div class="module-sub">Phòng thí nghiệm đo lường Rebuild</div>
+        <ul class="bullet-list">
+          <li>Đối đầu trực diện <code>setState</code> vs Provider.</li>
+          <li>Đo số lần build của 4 cách đọc State.</li>
+          <li>Trực quan hóa qua chip <code>Build: n</code> đổi màu.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 0.25in; font-size: 14pt; color: #475569; text-align: center;">
+      Công nghệ: <strong>Flutter (Material 3)</strong> · Thư viện <strong>provider: ^6.1.5</strong> · <strong>7 bài test tự động</strong> (5 unit test + 2 widget test đạt 100%).
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Khái niệm cơ bản & Kiến trúc giải pháp</span>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">Kiến trúc phân lớp và Luồng dữ liệu một chiều</div>
+    <div class="slide-badge">Slide 4 / 14</div>
+  </div>
+  <div class="slide-content">
+    <!-- Flow diagram -->
+    <div class="flow-container">
+      <div class="flow-step">
+        <h4>1. Sự kiện từ UI</h4>
+        <p>Nút Đăng ký / Hủy môn<br>Kịch bản DemoPanel</p>
+      </div>
+      <div class="flow-arrow">➔ <span style="font-size:12pt; display:block; color:#2563eb;">context.read</span></div>
+      <div class="flow-step active">
+        <h4>2. RegistrationNotifier</h4>
+        <p>Xử lý logic 14–24 TC<br>Cập nhật danh sách</p>
+      </div>
+      <div class="flow-arrow">➔ <span style="font-size:12pt; display:block; color:#059669;">notifyListeners()</span></div>
+      <div class="flow-step">
+        <h4>3. Widget con Rebuild</h4>
+        <p>CreditBadge (watch)<br>CourseTile (select)<br>SummaryBar (Consumer)</p>
+      </div>
+    </div>
+
+    <!-- 3 Layers Definition -->
+    <div class="grid-3" style="flex: 1;">
+      <div class="card">
+        <h3 style="font-size: 18pt; color: #1e3a8a; margin-bottom: 8px;">Tầng Giao diện (UI)</h3>
+        <p style="font-size: 13pt; color: #64748b; margin-bottom: 12px;"><code>lib/views/</code>, <code>lib/widgets/</code></p>
+        <ul class="bullet-list" style="font-size: 14pt;">
+          <li>Chỉ chịu trách nhiệm vẽ giao diện và bắt sự kiện chạm của người dùng.</li>
+          <li>Tuyệt đối không chứa logic cộng trừ tín chỉ hay phán đoán hợp lệ.</li>
+        </ul>
+      </div>
+
+      <div class="card card-primary">
+        <h3 style="font-size: 18pt; color: #1e3a8a; margin-bottom: 8px;">Tầng Trạng thái (State)</h3>
+        <p style="font-size: 13pt; color: #2563eb; margin-bottom: 12px;"><code>lib/notifiers/</code></p>
+        <ul class="bullet-list" style="font-size: 14pt;">
+          <li>Lưu trữ trạng thái sống, xử lý logic kiểm tra điều kiện.</li>
+          <li>Chủ động quyết định chính xác thời điểm nào cần phát <code>notifyListeners()</code>.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size: 18pt; color: #1e3a8a; margin-bottom: 8px;">Tầng Dữ liệu (Data)</h3>
+        <p style="font-size: 13pt; color: #64748b; margin-bottom: 12px;"><code>lib/models/</code>, <code>lib/data/</code></p>
+        <ul class="bullet-list" style="font-size: 14pt;">
+          <li>Model <code>Course</code> bất biến (immutable) với các trường dữ liệu cố định.</li>
+          <li>Danh mục mẫu gồm 10 môn học độc lập.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Separation of Concerns & Unidirectional Data Flow</span>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">RegistrationNotifier: Trái tim logic nghiệp vụ</div>
+    <div class="slide-badge">Slide 5 / 14</div>
+  </div>
+  <div class="slide-content">
+    <div class="grid-2" style="height: 100%;">
+      <div style="display: flex; flex-direction: column; justify-content: space-around;">
+        <div class="card" style="padding: 0.22in;">
+          <h4 style="font-size: 17pt; color: #1e3a8a; margin-bottom: 6px;">1. Tính đóng gói (Encapsulation)</h4>
+          <p style="font-size: 14pt; color: #334155; line-height: 1.5;">
+            Biến <code>_registered</code> là <strong>private</strong>. Bên ngoài chỉ có thể đọc thông qua getter <code>List.unmodifiable(_registered)</code>, ngăn chặn việc UI tự ý chỉnh sửa danh sách.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 0.22in;">
+          <h4 style="font-size: 17pt; color: #1e3a8a; margin-bottom: 6px;">2. Trạng thái dẫn xuất (Derived State)</h4>
+          <p style="font-size: 14pt; color: #334155; line-height: 1.5;">
+            <code>totalCredits</code> và <code>status</code> được tính tức thì từ danh sách bằng toán tử <code>fold()</code>. Đảm bảo nguyên tắc <strong>Single Source of Truth</strong>.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 0.22in;">
+          <h4 style="font-size: 17pt; color: #1e3a8a; margin-bottom: 6px;">3. Ràng buộc tín chỉ & Notify có điều kiện</h4>
+          <p style="font-size: 14pt; color: #334155; line-height: 1.5;">
+            Tối thiểu 14 TC, tối đa 24 TC, chống trùng môn. Nếu có lỗi: trả về chuỗi <code>String?</code> và <strong>TUYỆT ĐỐI KHÔNG GỌI <code>notifyListeners()</code></strong>, tránh rebuild thừa!
+          </p>
+        </div>
+      </div>
+
+      <div class="code-block">
+<span class="code-comment">// lib/notifiers/registration_notifier.dart (rút gọn)</span>
+<span class="code-kw">class</span> <span class="code-type">RegistrationNotifier</span> <span class="code-kw">extends</span> <span class="code-type">ChangeNotifier</span> {
+  <span class="code-kw">static const int</span> minCredits = <span class="code-type">14</span>;
+  <span class="code-kw">static const int</span> maxCredits = <span class="code-type">24</span>;
+
+  <span class="code-kw">final</span> <span class="code-type">List</span>&lt;<span class="code-type">Course</span>&gt; _registered = [];
+  <span class="code-type">List</span>&lt;<span class="code-type">Course</span>&gt; <span class="code-kw">get</span> registered =&gt; <span class="code-type">List</span>.unmodifiable(_registered);
+
+  <span class="code-kw">int get</span> totalCredits =&gt; _registered.fold(
+      <span class="code-type">0</span>, (sum, course) =&gt; sum + course.credits);
+
+  <span class="code-type">String</span>? register(<span class="code-type">Course</span> course) {
+    <span class="code-kw">if</span> (isRegistered(course.id)) {
+      <span class="code-kw">return</span> <span class="code-str">'Đã đăng ký!'</span>;
+    }
+    <span class="code-kw">if</span> (totalCredits + course.credits &gt; maxCredits) {
+      <span class="code-kw">return</span> <span class="code-str">'Vượt quá giới hạn tối đa 24 tín chỉ!'</span>;
+    }
+
+    _registered.add(course);
+    <span class="code-fn">notifyListeners</span>(); <span class="code-comment">// CHỈ THÔNG BÁO KHI STATE THẬT SỰ ĐỔI!</span>
+    <span class="code-kw">return null</span>;
+  }
+}
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>ChangeNotifier & Business Logic Cốt lõi</span>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">Cung cấp State: ChangeNotifierProvider Toàn cục vs Cục bộ</div>
+    <div class="slide-badge">Slide 6 / 14</div>
+  </div>
+  <div class="slide-content">
+    <div class="grid-2" style="margin-bottom: 0.35in;">
+      <div class="code-block" style="font-size: 12pt;">
+<span class="code-comment">// 1. Toàn cục (lib/main.dart): Dùng chung mọi màn hình</span>
+<span class="code-type">ChangeNotifierProvider</span>(
+  create: (_) =&gt; <span class="code-type">RegistrationNotifier</span>(),
+  child: <span class="code-type">MaterialApp</span>(
+    home: <span class="code-kw">const</span> <span class="code-type">CourseListScreen</span>(),
+  ),
+)
+      </div>
+
+      <div class="code-block" style="font-size: 12pt;">
+<span class="code-comment">// 2. Cục bộ (lib/lab/provider_lab_screen.dart): Chỉ trong Lab</span>
+<span class="code-type">ChangeNotifierProvider</span>(
+  create: (_) =&gt; <span class="code-type">LabNotifier</span>(),
+  child: <span class="code-kw">const</span> <span class="code-type">_ProviderLabView</span>(),
+)
+<span class="code-comment">// Khi người dùng bấm Back rời khỏi Lab:</span>
+<span class="code-comment">// Provider sẽ tự động kích hoạt dispose() dọn sạch RAM!</span>
+      </div>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Tiêu chí so sánh</th>
+          <th>Provider Toàn cục (Global)</th>
+          <th>Provider Cục bộ (Scoped / Local)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Vị trí khai báo</strong></td>
+          <td>Bọc ngoài cùng quanh <code>MaterialApp</code> (<code>main.dart</code>)</td>
+          <td>Bọc riêng trong màn hình <code>ProviderLabScreen</code></td>
+        </tr>
+        <tr>
+          <td><strong>Phạm vi truy cập</strong></td>
+          <td>Mọi màn hình: <code>CourseListScreen</code>, <code>RegisteredScreen</code></td>
+          <td>Chỉ các widget con nằm bên trong màn hình Lab</td>
+        </tr>
+        <tr>
+          <td><strong>Vòng đời (Lifecycle)</strong></td>
+          <td>Tồn tại suốt thời gian ứng dụng chạy</td>
+          <td>Tự động gọi <code>dispose()</code> giải phóng RAM khi thoát màn hình</td>
+        </tr>
+        <tr>
+          <td><strong>Mục đích kiến trúc</strong></td>
+          <td>Đồng bộ dữ liệu học phần chung trên toàn hệ thống</td>
+          <td>Phục vụ đo đạc thực nghiệm, cô lập hoàn toàn khỏi dữ liệu thật</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>Quản lý Vòng đời & Tối ưu hóa Bộ nhớ</span>
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-title">Bốn cách đọc State trong Provider</div>
+    <div class="slide-badge">Slide 7 / 14</div>
+  </div>
+  <div class="slide-content">
+    <!-- Breadcrumb indicator -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25in; padding: 12px 20px; background: #f1f5f9; border-radius: 12px;">
+      <span class="method-badge badge-setstate">setState (Cả cây)</span>
+      <span style="font-weight: bold; color: #94a3b8;">➔</span>
+      <span class="method-badge badge-watch">context.watch (Cả Widget)</span>
+      <span style="font-weight: bold; color: #94a3b8;">➔</span>
+      <span class="method-badge badge-consumer">Consumer (Chỉ hàm builder)</span>
+      <span style="font-weight: bold; color: #94a3b8;">➔</span>
+      <span class="method-badge badge-select">context.select (Chỉ khi giá trị đổi)</span>
+      <span style="font-weight: bold; color: #94a3b8;">➔</span>
+      <span class="method-badge badge-read">context.read (0 Rebuild)</span>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Cách đọc State</th>
+          <th>Hành vi Rebuild</th>
+          <th>Cơ chế hoạt động</th>
+          <th>Áp dụng trong dự án</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="method-badge badge-watch">context.watch&lt;T&gt;()</span></td>
+          <td>Mỗi lần <code>notifyListeners()</code></td>
+          <td>Đăng ký widget làm subscriber toàn phần</td>
+          <td><code>CreditBadge</code> (AppBar), <code>RegisteredScreen</code></td>
+        </tr>
+        <tr>
+          <td><span class="method-badge badge-consumer">&lt;Consumer&lt;T&gt;&gt;</span></td>
+          <td>Chỉ chạy lại hàm <code>builder</code></td>
+          <td>Khoanh vùng rebuild; có tham số <code>child</code> giữ lại UI tĩnh</td>
+          <td><code>SummaryBar</code> (thanh tiến độ ở chân màn hình)</td>
+        </tr>
+        <tr>
+          <td><span class="method-badge badge-select">context.select&lt;T, R&gt;()</span></td>
+          <td><strong>CHỈ</strong> khi giá trị con <code>R</code> đổi</td>
+          <td>Lọc điều kiện, bỏ qua các thay đổi khác trong Notifier</td>
+          <td><code>CourseTile</code> (chỉ theo dõi <code>isRegistered(id)</code>)</td>
+        </tr>
+        <tr>
+          <td><span class="method-badge badge-read">context.read&lt;T&gt;()</span></td>
+          <td><strong>KHÔNG BAO GIỜ</strong></td>
+          <td>Lấy tham chiếu Notifier để gọi method, không đăng ký lắng nghe</td>
+          <td>Các nút bấm <code>onPressed</code>: Đăng ký, Hủy môn, Clear</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="golden-rule-banner">
+      ⭐ QUY TẮC VÀNG: <code>watch</code> / <code>select</code> / <code>Consumer</code> đặt trong hàm <code>build()</code>; <code>context.read</code> đặt trong callback sự kiện (<code>onPressed</code>)!
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Course Registration · Quản lý trạng thái với Provider & ChangeNotifier</span>
+    <span>4 Kỹ thuật đọc State & Tối ưu Rebuild</span>
+  </div>
+</div>
+
+</body>
+</html>
