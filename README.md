@@ -83,36 +83,37 @@ flutter test
 
 ---
 
-## 🎬 Kịch bản Demo từng bước (Dành cho thuyết trình)
+## 📸 Hình ảnh Demo ứng dụng thực tế & Provider Lab
 
-### Bước 1: Trải nghiệm tương tác đa chiều ở màn hình chính
-1. Nhấn nút **Đăng ký** ở một môn học bất kỳ (ví dụ: *Lập trình đa nền tảng - 3 TC*).
-2. Quan sát sự thay đổi đồng thời tại 3 vị trí trên giao diện:
-   - **`CreditBadge`** trên AppBar nhảy từ `0/24 TC` lên `3/24 TC` (dùng `context.watch`).
-   - Thẻ môn học vừa chọn đổi trạng thái sang *"Đã chọn"*, nút bấm đổi thành *"Hủy môn"* (dùng `context.select`).
-   - **`SummaryBar`** ở chân màn hình tăng thanh tiến độ và hiển thị số tín chỉ còn thiếu để đạt tối thiểu (dùng `Consumer`).
+### 1. Màn hình chính & Tương tác đa chiều (1 thao tác, 3 vị trí cùng cập nhật)
+| Ban đầu (Chưa chọn môn: 0/24 TC) | Đăng ký 1 môn (3/24 TC: AppBar, nút & thanh tiến độ cùng đổi) |
+| :---: | :---: |
+| <img src="screenshots/01_home_empty.png" width="360" alt="Màn hình chính ban đầu" /> | <img src="screenshots/02_register_one.png" width="360" alt="Sau khi đăng ký 1 môn" /> |
 
-### Bước 2: Đồng bộ trạng thái liên màn hình
-1. Bấm vào biểu tượng **Học phần đã đăng ký** (`Icons.assignment_turned_in_outlined`) trên AppBar.
-2. Màn hình `RegisteredScreen` hiển thị danh sách các môn đã chọn.
-3. Nhấn nút dấu trừ đỏ (Icons.remove_circle_outline) để hủy 1 môn.
-4. Nhấn nút Back quay lại màn hình chính: Số tín chỉ trên AppBar, trạng thái nút trong danh sách và thanh tiến độ ở màn hình chính đều tự động giảm tương ứng (chứng minh việc dùng chung 1 instance State duy nhất).
+---
 
-### Bước 3: Sử dụng "Bảng điều khiển demo" (DemoPanel)
-Mở thẻ **Bảng điều khiển demo** ở đầu danh sách môn học:
-- **Bấm "Đăng ký đủ tối thiểu":** Hệ thống tự động chọn các môn cho đến khi tổng tín chỉ đạt $\ge 14\text{ TC}$. Thanh tiến độ và huy hiệu chuyển sang màu xanh lá (*Hợp lệ*), khu vực nhật ký bên dưới ghi nhận các lượt notify.
-- **Bấm "Thử vượt giới hạn":** Hệ thống liên tục đăng ký cho đến khi vượt quá $24\text{ TC}$, xuất hiện `SnackBar` cảnh báo màu đỏ: *"Không thể đăng ký: Tổng tín chỉ sẽ vượt quá giới hạn tối đa (24 tín chỉ)!"*.
-- **Bấm "Thử đăng ký trùng":** Hệ thống cố ý gọi `register` lại môn đã đăng ký (nếu chưa có môn nào, lần bấm đầu sẽ đăng ký trước môn đầu tiên; bấm lần nữa để thử trùng):
-  - Một `SnackBar` màu cam hiện lên báo lỗi trùng môn.
-  - **Quan sát khu Nhật ký notifyListeners:** Bộ đếm và danh sách nhật ký **hoàn toàn không tăng thêm dòng mới**. Điều này chứng minh trực quan rằng `RegistrationNotifier` chỉ gọi `notifyListeners()` khi state thật sự biến đổi.
-- **Bấm "Hủy tất cả":** Reset toàn bộ danh sách đăng ký về `0 TC`.
+### 2. Bảng điều khiển Demo (DemoPanel) – Kiểm chứng các kịch bản biên
+| Đăng ký đủ tối thiểu (≥ 14 TC - Hợp lệ) | Vượt giới hạn tối đa 24 TC (SnackBar đỏ) | Đăng ký trùng (SnackBar cam, nhật ký không tăng) |
+| :---: | :---: | :---: |
+| <img src="screenshots/03_demo_valid.png" width="240" alt="Đăng ký đủ tối thiểu" /> | <img src="screenshots/04_demo_exceed.png" width="240" alt="Vượt giới hạn 24 TC" /> | <img src="screenshots/05_demo_duplicate.png" width="240" alt="Đăng ký trùng môn" /> |
 
-### Bước 4: Khám phá "Provider Lab" (Trực quan hóa Rebuild)
-1. Bấm biểu tượng ống nghiệm (`Icons.science_outlined`) trên AppBar để mở **Provider Lab**.
-2. Thử nghiệm so sánh 5 cách quản lý và đọc state:
-   - **Cách 1 - `setState()` truyền thống:** Bấm tăng số đếm $\rightarrow$ Cả Khối A (khối cha, Text số và widget con tĩnh) đều tăng chip `Build: n`.
-   - **Cách 2 - `context.watch()`:** Khi dữ liệu thay đổi $\rightarrow$ Toàn bộ widget chứa `context.watch` bị rebuild.
-   - **Cách 3 - `Consumer`:** Chỉ duy nhất khối nằm trong hàm `builder` của `Consumer` tăng số lần build, phần còn lại giữ nguyên.
-   - **Cách 4 - `context.select()`:** Thay đổi các trường dữ liệu khác không làm widget rebuild; chỉ khi trường dữ liệu được chọn thay đổi thì chip mới tăng.
-   - **Cách 5 - `context.read()`:** Bấm gọi hàm thoải mái $\rightarrow$ Chip `Build: 1` giữ nguyên vĩnh viễn, không bao giờ rebuild.
-   - **Nút "Đặt lại bộ đếm build":** Đưa toàn bộ chip trên màn hình về `Build: 1` và reset bộ đếm về ban đầu.
+---
+
+### 3. Đồng bộ trạng thái liên màn hình (Dùng chung 1 Instance State duy nhất)
+| Màn hình học phần đã đăng ký (23/24 TC) | Hủy môn & Back về màn hình chính (Tự đồng bộ còn 20 TC) |
+| :---: | :---: |
+| <img src="screenshots/06_registered.png" width="360" alt="Màn hình đã đăng ký" /> | <img src="screenshots/07_sync_back.png" width="360" alt="Đồng bộ 2 chiều khi back về" /> |
+
+---
+
+### 4. Phòng thí nghiệm Provider Lab (Trực quan hóa số lần Rebuild)
+
+#### a) So sánh trực tiếp: `setState` vs `Provider`
+| Ban đầu (Tất cả Build: 1) | Bấm tăng Khối A (setState làm cả cha, con, số đều Build: 4) | Bấm tăng Khối B (Provider chỉ làm số Build: 4, cha và con tĩnh giữ Build: 1) |
+| :---: | :---: | :---: |
+| <img src="screenshots/08_lab_initial.png" width="240" alt="Lab ban đầu" /> | <img src="screenshots/09_lab_setstate.png" width="240" alt="Lab setState rebuild cả khối" /> | <img src="screenshots/10_lab_provider.png" width="240" alt="Lab Provider chỉ rebuild widget cần thiết" /> |
+
+#### b) Đo số lần rebuild của 4 cách đọc State & Nút Reset
+| Đo 4 cách đọc state sau khi tăng B (watch=6, Consumer=6, select=4, read=1) | Nút "Đặt lại bộ đếm build" (Đưa toàn bộ chip về Build: 1) |
+| :---: | :---: |
+| <img src="screenshots/11_lab_increment_b.png" width="360" alt="Đo 4 cách đọc state" /> | <img src="screenshots/12_lab_reset.png" width="360" alt="Reset bộ đếm build" /> |
